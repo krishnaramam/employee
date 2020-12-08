@@ -23,7 +23,8 @@ import com.maivthan.employee.exception.ResourceNotFoundException;
 import com.maivthan.employee.model.Employee;
 import com.maivthan.employee.repository.EmployeeRepository;
 
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1")
 public class EmployeeController {
