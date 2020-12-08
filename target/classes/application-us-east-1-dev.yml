@@ -1,6 +1,6 @@
 server:
   port: 80  
-  servlet
+  servlet:
     context-path: /employee
 
 spring:
