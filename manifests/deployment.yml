@@ -25,7 +25,6 @@ spec:
               key: SPRING_PROFILES_ACTIVE 
       
 --- 
-# https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service  
 kind: Service 
 apiVersion: v1 
 metadata: 
@@ -38,3 +37,20 @@ spec:
     port: 80 
     targetPort: 80 
   type: LoadBalancer 
+---      
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"	
+  name: maivthan-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: employee-service 
+          servicePort: 80
+        path: /employee(/|$)(.*)
