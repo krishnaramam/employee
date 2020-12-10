@@ -1,3 +1,7 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /employee
 spring:
   flyway:
       baselineOnMigrate: true
@@ -8,7 +12,11 @@ spring:
         settings:
           webAllowOthers: true           
   datasource: 
-        url: jdbc:h2:./dbmigration-local-DB;DB_CLOSE_DELAY=-1;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE   
+        url: jdbc:h2:mem:demo;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE   
         username: sa
         password:
         driverClass:  org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none

@@ -66,7 +66,7 @@ public class EmployeeRestClient {
 
 	private void createEmployee() {
 
-		Employee newEmployee = new Employee("admin", "admin", "admin@gmail.com");
+		Employee newEmployee = new Employee();
 
 		RestTemplate restTemplate = new RestTemplate();
 		Employee result = restTemplate.postForObject(CREATE_EMPLOYEE_ENDPOINT_URL, newEmployee, Employee.class);
@@ -77,7 +77,7 @@ public class EmployeeRestClient {
 	private void updateEmployee() {
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("id", "1");
-		Employee updatedEmployee = new Employee("admin123", "admin123", "admin123@gmail.com");
+		Employee updatedEmployee = new Employee();
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.put(UPDATE_EMPLOYEE_ENDPOINT_URL, updatedEmployee, params);
 	}
