@@ -1,9 +1,9 @@
+com\maivthan\employee\config\SwaggerConfig.class
+com\maivthan\employee\controller\EmployeeController.class
 com\maivthan\employee\model\Employee.class
 com\maivthan\employee\exception\ResourceNotFoundException.class
-com\maivthan\employee\exception\ErrorDetails.class
-com\maivthan\employee\config\SwaggerConfig.class
 com\maivthan\employee\Application.class
-com\maivthan\employee\exception\GlobalExceptionHandler.class
 com\maivthan\employee\EmployeeRestClient.class
-com\maivthan\employee\controller\EmployeeController.class
 com\maivthan\employee\repository\EmployeeRepository.class
+com\maivthan\employee\exception\GlobalExceptionHandler.class
+com\maivthan\employee\exception\ErrorDetails.class
