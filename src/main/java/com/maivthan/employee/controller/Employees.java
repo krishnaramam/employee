@@ -1,7 +1,6 @@
 package com.maivthan.employee.controller;
 
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import com.maivthan.employee.event.EmployeeActions;
+import com.maivthan.employee.event.EventPublisher;
+import com.maivthan.employee.event.MaivthanApplicationEvent;
 import com.maivthan.employee.exception.ResourceNotFoundException;
 import com.maivthan.employee.model.Employee;
 import com.maivthan.employee.repository.EmployeeRepository;
@@ -27,9 +28,15 @@ import com.maivthan.employee.repository.EmployeeRepository;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/v1")
-public class EmployeeController {
+public class Employees {
 	@Autowired
 	private EmployeeRepository employeeRepository;
+	
+	@Autowired
+	private EmployeeActions employeeActions;
+	
+	@Autowired
+	private EventPublisher eventPublisher;		
 
 	@GetMapping("/employees")
 	public List<Employee> getAllEmployees() {
@@ -46,7 +53,12 @@ public class EmployeeController {
 
 	@PostMapping("/employees")
 	public Employee createEmployee(@Valid @RequestBody Employee employee) {
-		return employeeRepository.save(employee);
+		MaivthanApplicationEvent applicationEvent = new MaivthanApplicationEvent();
+		applicationEvent.setEventName(employeeActions.createInboundAction);
+		Employee savedEmployee = employeeRepository.save(employee);
+		applicationEvent.setAfter(employee);
+		eventPublisher.publishEvent(applicationEvent);				
+		return savedEmployee;
 	}
 
 	@PutMapping("/employees/{id}")
@@ -55,10 +67,20 @@ public class EmployeeController {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
 
+
+		MaivthanApplicationEvent applicationEvent = new MaivthanApplicationEvent();
+		applicationEvent.setEventName(employeeActions.updateInboundAction);
+		applicationEvent.setBefore(employee);
+
 		employee.setEmailId(employeeDetails.getEmailId());
 		employee.setLastName(employeeDetails.getLastName());
 		employee.setFirstName(employeeDetails.getFirstName());
 		final Employee updatedEmployee = employeeRepository.save(employee);
+		
+		applicationEvent.setAfter(updatedEmployee);
+		eventPublisher.publishEvent(applicationEvent);		
+		
+		
 		return ResponseEntity.ok(updatedEmployee);
 	}
 
@@ -67,8 +89,14 @@ public class EmployeeController {
 			throws ResourceNotFoundException {
 		Employee employee = employeeRepository.findById(employeeId)
 				.orElseThrow(() -> new ResourceNotFoundException("Employee not found for this id :: " + employeeId));
+		
+		MaivthanApplicationEvent applicationEvent = new MaivthanApplicationEvent();
+		applicationEvent.setEventName(employeeActions.deleteInboundAction);
+		applicationEvent.setBefore(employee);				
 
 		employeeRepository.delete(employee);
+		eventPublisher.publishEvent(applicationEvent);		
+		
 		Map<String, Boolean> response = new HashMap<>();
 		response.put("deleted", Boolean.TRUE);
 		return response;

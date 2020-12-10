@@ -1,6 +1,10 @@
+maivthan:
+  eventpublisher: 'http://13.68.251.41/eventpublisher/api/v1/'
+server:
+  port: 8081  
+  servlet:
+    context-path: /employee
 spring:
-  flyway:
-      baselineOnMigrate: true
   h2:
       console: 
         enabled: true      
@@ -12,3 +16,6 @@ spring:
         username: sa
         password:
         driverClass:  org.h2.Driver
+  jpa: 
+        hibernate:
+          ddl-auto: update
