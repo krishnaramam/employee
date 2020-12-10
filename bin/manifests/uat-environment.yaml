@@ -1,6 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: environment
-data:
-  SPRING_PROFILES_ACTIVE: "us-east-1-uat"

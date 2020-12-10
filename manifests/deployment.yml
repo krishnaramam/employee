@@ -21,7 +21,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE 
           valueFrom:
             configMapKeyRef:
-              name: environment 
+              name: employee-environment 
               key: SPRING_PROFILES_ACTIVE 
       
 --- 
@@ -36,21 +36,6 @@ spec:
   - protocol: TCP 
     port: 80 
     targetPort: 80 
-  type: LoadBalancer 
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: employee-ingress
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-spec:
-  rules:
-  - http:
-      paths:
-      - path: /employee
-        backend:
-          serviceName: employee-service
-          servicePort: 80   
+  type: ClusterIP 
+
           
