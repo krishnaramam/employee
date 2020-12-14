@@ -1,4 +1,6 @@
-git add -A
-git commit -m "test"
-git push --set-upstream https://manchanaramakrishna@dev.azure.com/manchanaramakrishna/maivthan/_git/employee-service main
-
+git init
+git add *
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/krishnaramam/employee.git
+git push -u origin main
