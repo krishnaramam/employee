@@ -1,6 +1,4 @@
-git init
-git add *
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/krishnaramam/employee.git
-git push -u origin main
+git add -A
+git commit -m "test"
+git push --set-upstream https://github.com/krishnaramam/employee.git main
+
